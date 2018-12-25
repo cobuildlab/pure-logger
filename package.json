@@ -1,0 +1,27 @@
+{
+  "name": "pure-logger",
+  "version": "0.0.1",
+  "description": "A Simple logger for Node applications",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "homepage": "https://github.com/cobuildlab/pure-logger",
+  "bugs": {
+    "url": "https://github.com/cobuildlab/pure-logger/issues"
+  },
+  "author": "Angel Lacret",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "jest": "^22.4.4"
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/v2/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ]
+  }
+}
