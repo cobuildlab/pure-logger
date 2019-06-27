@@ -4,10 +4,9 @@ A minimalistic logger for node projects (backend, browser and mobile) that exten
 
 The logger check the value of: 
 
-`__DEV__` 
-`process.env`
-and:
-`window.DEBUG`
+- `__DEV__`
+- `process.env`
+- `window.DEBUG`
 
 To check if any logs needs to be done.
 
@@ -24,16 +23,18 @@ Missing:
 
 
 ```
-const log = require('simple-logger');
+const log = require('pure-logger');
 log.log ("a",1,2, {"a": 2});
 log.error(new Error("Test"));
 ```
 
-### For React:
-
+### For Browser:
 
 ```
-import {log, error} from 'simple-logger';
+//setup
+window.DEBUG = true;
+
+import {log, error} from 'pure-logger';
 log ("a",1,2, {"a": 2});
 error(new Error("Test"));
 ```

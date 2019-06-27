@@ -19,14 +19,13 @@ const itMustLog = () => {
     }
 
   return false;
-}
+};
 
 const info = (...args) => {
   if (!itMustLog())
     return;
   console.info(...args);
 };
-
 
 const log = (...args) => {
   if (!itMustLog())
