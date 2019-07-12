@@ -13,7 +13,6 @@ test('Everything is gonna be OK', () => {
   error("ERROR", 123);
   warn("WARN", 123);
   debug("DEBUG", 123);
-
 });
 
 

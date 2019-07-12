@@ -31,7 +31,7 @@ const debug = (...args) => {
   if (PURE_LOGGER.isBrowser) {
     const [first, ...second] = args;
     if (second.length > 0)
-      console.debug(`%c${first} `, `color:dark-blue`, second);
+      console.debug(`%c${first} `, `color:dark-blue`, ...second);
     else
       console.debug(`%c${first} `, `color:dark-blue`);
   } else
@@ -44,7 +44,7 @@ const info = (...args) => {
   if (PURE_LOGGER.isBrowser) {
     const [first, ...second] = args;
     if (second.length > 0)
-      console.info(`%c${first} `, `color:dark-blue`, second);
+      console.info(`%c${first} `, `color:dark-blue`, ...second);
     else
       console.info(`%c${first} `, `color:dark-blue`);
   } else
@@ -57,7 +57,7 @@ const log = (...args) => {
   if (PURE_LOGGER.isBrowser) {
     const [first, ...second] = args;
     if (second.length > 0)
-      console.log(`%c${first} `, `color:dark-blue`, second);
+      console.log(`%c${first} `, `color:dark-blue`, ...second);
     else
       console.log(`%c${first} `, `color:dark-blue`);
   } else
@@ -70,7 +70,7 @@ const warn = (...args) => {
   if (PURE_LOGGER.isBrowser) {
     const [first, ...second] = args;
     if (second.length > 0)
-      console.warn(`%c${first} `, `color:dark-blue`, second);
+      console.warn(`%c${first} `, `color:dark-blue`, ...second);
     else
       console.warn(`%c${first} `, `color:dark-blue`);
   } else
@@ -83,7 +83,7 @@ const error = (...args) => {
   if (PURE_LOGGER.isBrowser) {
     const [first, ...second] = args;
     if (second.length > 0)
-      console.error(`%c${first} `, `color:dark-blue`, second);
+      console.error(`%c${first} `, `color:dark-blue`, ...second);
     else
       console.error(`%c${first} `, `color:dark-blue`);
   } else
