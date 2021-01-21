@@ -38,3 +38,16 @@ import {log, error} from 'pure-logger';
 log ("a",1,2, {"a": 2});
 error(new Error("Test"));
 ```
+
+
+# TODO: 
+
+1. Validate env variable for loggging or not. Default is logging, if a variable is set, then do not log
+2. Validate env variable for rollbar reporting. Default is not logging, if a variable is et, then do log to Rollbar
+3. Validate that the rollbar key is ppresent to log to rollbar
+4. log and error, with automatic throawable versions
+5. Message string is required
+6. Migrate too typescript
+7. Tests
+8. update Readme
+9. use Json.stringyfy to log to the consoles

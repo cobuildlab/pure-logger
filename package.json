@@ -1,7 +1,7 @@
 {
   "name": "@cobuildlab/pure-logger",
-  "version": "0.0.4",
-  "description": "A Simple logger for Javascript applications",
+  "version": "1.0.0",
+  "description": "A Simple logger for Javascript applications, integrated with Rollbar",
   "main": "src/index.js",
   "scripts": {
     "test": "jest"

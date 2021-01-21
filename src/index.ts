@@ -6,6 +6,16 @@ const PURE_LOGGER = {
   isBrowser: typeof window !== 'undefined' && typeof window.document !== 'undefined'
 };
 
+const mustDebug  = ():boolean => 
+{
+  proccess.env || window. 
+}
+
+const mustReportToRollbar = (): boolean => {
+  proccess.env || window.
+}
+
+
 const getLogLevel = () => {
   if (window)
     if (typeof window.DEBUG_LEVEL === 'number')
@@ -91,3 +101,31 @@ const error = (...args) => {
 };
 
 module.exports = {info, log, error, debug, warn};
+
+
+
+interface Data {
+  [key:string]: value
+}
+
+const log = (exception: Error?, message:string, ...data?:[any]): void => {
+  let data = {};
+    if(data)
+      JSON.stringify(data)
+    
+  data = null; 
+}
+
+const logAndThrow = (exception: Error, message:string, ...data:[any]): void => {
+    log()
+    throw exception;
+}
+
+const error = (exception: Error, {message:str, data:Data}): voidd => {
+  
+}
+
+const errorAndThrow = (exception: Error, {message:str, data:Data}): voidd => {
+    error()
+    throw exception;
+}
