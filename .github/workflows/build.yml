@@ -1,0 +1,16 @@
+name: Node.js Package
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - run: npm ci
+      - run: npm run test
+      - run: npm run eslint
+      - run: npm run build

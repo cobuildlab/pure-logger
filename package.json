@@ -1,7 +1,7 @@
 {
   "name": "@cobuildlab/pure-logger",
   "version": "0.0.4",
-  "description": "A Simple logger for Javascript applications",
+  "description": "A Simple logger for Typescript applications",
   "main": "src/index.js",
   "scripts": {
     "test": "jest"
@@ -13,7 +13,28 @@
   "author": "Angel Lacret",
   "license": "GPL-3.0",
   "devDependencies": {
-    "jest": "^24.8.0"
+    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-typescript": "^7.15.0",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.0.2",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jsdoc": "^32.3.3",
+    "husky": "7.0.1",
+    "jest": "^27.0.6",
+    "lint-staged": "11.1.2",
+    "prettier": "2.3.2",
+    "typescript": "4.3.5"
+  },
+  "dependencies": {
+    "rollbar": "2.24.0"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   },
   "jest": {
     "verbose": true,
@@ -22,6 +43,19 @@
       "src/v2/*.{js,jsx}",
       "!**/node_modules/**",
       "!**/vendor/**"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/(build|node_modules)/"
+    ],
+    "testRegex": [
+      ".test.ts$",
+      ".test.tsx$"
     ]
   }
 }
