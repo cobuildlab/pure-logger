@@ -1,10 +1,12 @@
 {
   "name": "@cobuildlab/pure-logger",
-  "version": "0.0.4",
-  "description": "A Simple logger for Typescript applications",
+  "version": "0.0.5",
+  "description": "A Simple logger for Typescript applications with Rollbar integration.",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "eslint": "eslint --fix",
+    "build": "tsc"
   },
   "homepage": "https://github.com/cobuildlab/pure-logger",
   "bugs": {
