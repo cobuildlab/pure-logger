@@ -6,6 +6,7 @@ module.exports = {
     'eslint-config-prettier',
     'plugin:jsdoc/recommended',
   ],
+  global: ['window', 'global'],
   ignorePatterns: ['lib/**/*.js.', 'lib/*.js'],
   env: {
     node: true,
