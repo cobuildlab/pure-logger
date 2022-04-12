@@ -1,4 +1,4 @@
-import { CloudWatchLog } from 'cloud-watch';
+import { CloudWatchLog } from './cloud-watch';
 
 type LogInput = (string | Error) | (string | Error)[];
 

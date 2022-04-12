@@ -1,6 +1,6 @@
 {
   "name": "@cobuildlab/pure-logger",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A Simple logger for Typescript applications with Rollbar integration.",
   "main": "dist/index.js",
   "scripts": {
@@ -30,7 +30,7 @@
     "typescript": "4.3.5"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudwatch-logs": "^3.54.1",
+    "@aws-sdk/client-cloudwatch-logs": "^3.67.0",
     "@aws-sdk/url-parser-node": "^3.1.0",
     "rollbar": "2.24.0"
   },
