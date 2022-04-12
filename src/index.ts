@@ -1,3 +1,5 @@
+import {createLogger} from "./logger";
+
 interface Rollbar {
     debug: (toLog: (string | Error)[]) => void
     error: (toLog: (string | Error)[]) => void
@@ -74,4 +76,4 @@ const error = (e?: Error | string, ...prefix: any[]) => {
 }
 
 
-export {setColored, setRollbar, log, error};
+export {setColored, setRollbar, log, error, createLogger};
