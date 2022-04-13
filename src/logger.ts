@@ -1,59 +1,48 @@
-import { CloudWatchLog } from './cloud-watch';
+import { CloudWatchLog } from "./cloud-watch";
 
 type LogInput = (string | Error) | (string | Error)[];
 
 const isBrowser = new Function(
-  'try {return this===window;}catch(e){ return false;}',
+  "try {return this===window;}catch(e){ return false;}"
 );
 
 const isNode = new Function(
-  'try {return this===global;}catch(e){return false;}',
+  "try {return this===global;}catch(e){return false;}"
 );
 
 const isDebug: () => boolean = () => {
-  if (isBrowser()) if (window.hasOwnProperty('DEBUG_LEVEL')) return true;
+  if (isBrowser()) if (window.hasOwnProperty("DEBUG_LEVEL")) return true;
 
   if (isNode())
-    if (process && process.env && process.env.hasOwnProperty('DEBUG_LEVEL'))
+    if (process && process.env && process.env.hasOwnProperty("DEBUG_LEVEL"))
       // Node
       return true;
   return false;
 };
 
+
 export function createLogger({
-  isColored,
-  cloudWatch,
-}: Partial<{
+                               isColored,
+                               cloudWatch
+                             }: Partial<{
   isColored: boolean;
-  cloudWatch: {
-    accessKeyId: string;
-    secretAccessKey: string;
-    region: string;
-    logGroupName: string;
-    logStreamName: string;
-  };
+  cloudWatch: CloudWatchConfig;
 }> = {}): {
   log: (input: LogInput) => void;
 } {
-  let cloudWatchIntance: null | CloudWatchLog = null;
+  let cloudWatchInstance: CloudWatchLog | null = null;
+  let cloudWatchConfig: CloudWatchConfig | null = null;
 
-  if (cloudWatch) {
-    cloudWatchIntance = new CloudWatchLog(cloudWatch);
-    try {
-      cloudWatchIntance.createLogStream(
-        cloudWatch.logGroupName,
-        cloudWatch.logStreamName,
-      );
-    } catch (error) {
-      console.log("Couldn't create the log stream for cloudwatch");
-    }
+  if (cloudWatch !== undefined) {
+    cloudWatchConfig = { ...cloudWatch };
   }
+
   /**
    * @param e
    * @param prefix
    * @example
    */
-  function log(e: LogInput) {
+  async function log(e: LogInput) {
     const toLog: typeof e[] = Array.isArray(e) ? e : [e];
 
     if (isDebug()) {
@@ -61,21 +50,24 @@ export function createLogger({
     }
     if (isBrowser()) {
       if (isColored) {
-        console.log(`%c${toLog.join(':')} `, `color:dark-blue`);
+        console.log(`%c${toLog.join(":")} `, `color:dark-blue`);
       } else {
         console.log(...toLog);
       }
     } else {
       console.log(...toLog);
     }
-    if (cloudWatchIntance) {
-      cloudWatchIntance.send(
-        toLog.map((e) => (typeof e === 'string' ? e : JSON.stringify(e))),
+
+    if (cloudWatchConfig !== undefined && cloudWatchConfig !== null) {
+      cloudWatchInstance = new CloudWatchLog(cloudWatchConfig);
+      await cloudWatchInstance.send(
+        toLog.map((e) => (typeof e === "string" ? e : JSON.stringify(e)))
       );
     }
+
   }
 
   return {
-    log,
+    log
   };
 }
