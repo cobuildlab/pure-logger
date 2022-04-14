@@ -2,33 +2,37 @@
 
 A minimalistic logger for Typescript / Javascript projects (backend, browser and mobile):
 
-- Minimum setup 
-- Extends the console with the purpose of get rid of the overhead of logging 
+- Minimum setup
+- Extends the console with the purpose of get rid of the overhead of logging
 - Optional Rollbar support
 - Optional Cloudwatch support
 
-
 Tested with Node applications, React and React Native, it should work with any other node applications without a problem.
 
+## Installation
+
+```shell
+npm install @cobuildlab/pure-logger
+```
 
 ## Examples:
 
 ### Simple
 
 ```typescript
-import {log, error} from 'pure-logger';
+import { log, error } from '@cobuildlab/pure-logger';
 
 // Logs any to the console
-await log ("a",1,2, {"a": 2});
+await log('a', 1, 2, { a: 2 });
 
 // Logs any to the console and raises an error
-await log.error(new Error("Test"), {"s":1}, true, 1);
+await log.error(new Error('Test'), { s: 1 }, true, 1);
 ```
 
 ### Cloudwatch
 
 ```typescript
-import { createLogger } from "../logger";
+import { createLogger } from '@cobuildlab/pure-logger';
 
 const { log } = createLogger({
   cloudWatch: {
