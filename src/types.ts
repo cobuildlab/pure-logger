@@ -1,4 +1,4 @@
-interface CloudWatchConfig {
+export interface CloudWatchConfig {
   accessKeyId: string;
   secretAccessKey: string;
   region: string;

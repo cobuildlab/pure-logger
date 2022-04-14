@@ -8,13 +8,15 @@ import {
   DescribeLogStreamsCommand,
   CreateLogGroupCommandInput,
   PutLogEventsCommandInput,
-  LogStream, LogGroup, DescribeLogGroupsCommand, CreateLogGroupCommandOutput
-} from "@aws-sdk/client-cloudwatch-logs";
-import { parseUrl } from "@aws-sdk/url-parser-node";
-import {
-  DescribeLogGroupsCommandInput
-} from "@aws-sdk/client-cloudwatch-logs/dist-types/commands/DescribeLogGroupsCommand";
-import { InputLogEvent } from "@aws-sdk/client-cloudwatch-logs/dist-types/models/models_0";
+  LogStream,
+  LogGroup,
+  DescribeLogGroupsCommand,
+  CreateLogGroupCommandOutput,
+} from '@aws-sdk/client-cloudwatch-logs';
+import { parseUrl } from '@aws-sdk/url-parser-node';
+import { DescribeLogGroupsCommandInput } from '@aws-sdk/client-cloudwatch-logs/dist-types/commands/DescribeLogGroupsCommand';
+import { InputLogEvent } from '@aws-sdk/client-cloudwatch-logs/dist-types/models/models_0';
+import { CloudWatchConfig } from 'types';
 
 export class CloudWatchLog {
   private client: CloudWatchLogsClient;
@@ -30,8 +32,8 @@ export class CloudWatchLog {
       urlParser: parseUrl,
       credentials: {
         accessKeyId: config.accessKeyId,
-        secretAccessKey: config.secretAccessKey
-      }
+        secretAccessKey: config.secretAccessKey,
+      },
     });
     this.logGroupName = config.logGroupName;
     this.logStreamName = config.logStreamName;
@@ -39,45 +41,47 @@ export class CloudWatchLog {
 
   private async createLogGroup() {
     if (this.logGroupName === null) {
-      throw new Error("logGroupName is null");
+      throw new Error('logGroupName is null');
     }
     if (this.logGroup != null) {
       return;
     }
     const input: CreateLogGroupCommandInput = {
-      logGroupName: this.logGroupName
+      logGroupName: this.logGroupName,
     };
     const command = new CreateLogGroupCommand(input);
     try {
       await this.client.send(command);
     } catch (err) {
-      if (err.__type !== undefined && err.__type !== "ResourceAlreadyExistsException") {
+      if (
+        err.__type !== undefined &&
+        err.__type !== 'ResourceAlreadyExistsException'
+      ) {
         throw err;
       }
       // Maybe already exists
       const inputDescribe: DescribeLogGroupsCommandInput = {
-        logGroupNamePrefix: this.logGroupName
+        logGroupNamePrefix: this.logGroupName,
       };
-      const describeStream = new DescribeLogGroupsCommand(
-        inputDescribe);
+      const describeStream = new DescribeLogGroupsCommand(inputDescribe);
       const response = await this.client.send(describeStream);
       if (response.logGroups !== undefined && response.logGroups.length > 0) {
         this.logGroup = response.logGroups[0];
         return;
       }
-      throw new Error("Failed to create log group");
+      throw new Error('Failed to create log group');
     }
     this.logGroup = {
-      logGroupName: this.logGroupName
+      logGroupName: this.logGroupName,
     };
   }
 
   private async createLogStream() {
     if (this.logGroupName === null) {
-      throw new Error("logGroupName is null");
+      throw new Error('logGroupName is null');
     }
     if (this.logStreamName === null) {
-      throw new Error("logStreamName is null");
+      throw new Error('logStreamName is null');
     }
 
     if (this.logStream != null) {
@@ -86,7 +90,7 @@ export class CloudWatchLog {
 
     const putStream = new CreateLogStreamCommand({
       logGroupName: this.logGroupName,
-      logStreamName: this.logStreamName
+      logStreamName: this.logStreamName,
     });
 
     try {
@@ -94,7 +98,7 @@ export class CloudWatchLog {
     } catch (error) {
       // Maybe already exists
       const inputDescribe = {
-        logGroupName: this.logGroupName
+        logGroupName: this.logGroupName,
       };
       const describeStream = new DescribeLogStreamsCommand(inputDescribe);
       const response = await this.client.send(describeStream);
@@ -104,10 +108,10 @@ export class CloudWatchLog {
           this.nextSequenceToken = this.logStream.uploadSequenceToken;
         return;
       }
-      throw new Error("Failed to create log stream");
+      throw new Error('Failed to create log stream');
     }
     this.logStream = {
-      logStreamName: this.logStreamName
+      logStreamName: this.logStreamName,
     };
   }
 
@@ -120,23 +124,23 @@ export class CloudWatchLog {
     await this.createLogStream();
 
     const logs: InputLogEvent[] =
-      typeof messages === "string"
+      typeof messages === 'string'
         ? [
-          {
-            message: messages,
-            timestamp: new Date().getTime() + Math.round(Math.random() * 100)
-          }
-        ]
+            {
+              message: messages,
+              timestamp: new Date().getTime() + Math.round(Math.random() * 100),
+            },
+          ]
         : messages.map((msg) => ({
-          message: msg,
-          timestamp: new Date().getTime() + Math.round(Math.random() * 100)
-        }));
+            message: msg,
+            timestamp: new Date().getTime() + Math.round(Math.random() * 100),
+          }));
 
     const putInput: PutLogEventsCommandInput = {
       logGroupName: this.logGroupName,
       logEvents: logs,
       logStreamName: this.logStreamName,
-      sequenceToken: this.nextSequenceToken ?? undefined
+      sequenceToken: this.nextSequenceToken ?? undefined,
     };
 
     const putCommand = new PutLogEventsCommand(putInput);
@@ -146,6 +150,5 @@ export class CloudWatchLog {
     } catch (error) {
       throw error;
     }
-
   }
 }
