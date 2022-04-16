@@ -16,7 +16,7 @@ import {
 import { parseUrl } from '@aws-sdk/url-parser-node';
 import { DescribeLogGroupsCommandInput } from '@aws-sdk/client-cloudwatch-logs/dist-types/commands/DescribeLogGroupsCommand';
 import { InputLogEvent } from '@aws-sdk/client-cloudwatch-logs/dist-types/models/models_0';
-import { CloudWatchConfig } from 'types';
+import { CloudWatchConfig } from './types';
 
 export class CloudWatchLog {
   private client: CloudWatchLogsClient;
