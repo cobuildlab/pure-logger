@@ -44,19 +44,19 @@ export function createLogger({
    */
   async function log(e: LogInput) {
     const toLog: typeof e[] = Array.isArray(e) ? e : [e];
-
-    if (isDebug()) {
-      console.trace(...toLog);
-    }
-    if (isBrowser()) {
-      if (isColored) {
-        console.log(`%c${toLog.join(':')} `, `color:dark-blue`);
-      } else {
-        console.log(...toLog);
-      }
-    } else {
-      console.log(...toLog);
-    }
+    //
+    // if (isDebug()) {
+    //   console.trace(...toLog);
+    // }
+    // if (isBrowser()) {
+    //   if (isColored) {
+    //     console.log(`%c${toLog.join(':')} `, `color:dark-blue`);
+    //   } else {
+    //     console.log(...toLog);
+    //   }
+    // } else {
+    //   console.log(...toLog);
+    // }
 
     if (cloudWatchConfig !== undefined && cloudWatchConfig !== null) {
       cloudWatchInstance = new CloudWatchLog(cloudWatchConfig);
