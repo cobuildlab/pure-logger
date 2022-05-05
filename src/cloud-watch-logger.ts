@@ -27,6 +27,7 @@ export class CloudWatchLog {
     private logStream: Partial<LogStream> | null = null;
     private logGroup: Partial<LogGroup> | null = null;
     private nextSequenceToken: string | null = null;
+    private messages: string[] = [];
 
     constructor(config: CloudWatchConfig) {
         this.client = new CloudWatchLogsClient({
@@ -117,7 +118,25 @@ export class CloudWatchLog {
         };
     }
 
-    async send(messages: string | string[]) {
+    send(messages: string | string[]) {
+        if (Array.isArray(messages)) {
+            for (const message of messages) {
+                this.messages.push(message);
+            }
+        } else {
+            this.messages.push(messages);
+        }
+
+    }
+
+    messageCount(){
+        return this.messages.length;
+    }
+
+    async flush() {
+        if(this.messages.length === 0 ){
+            return;
+        }
         if (!(this.logGroupName && this.logStreamName)) {
             throw new Error("Can't send logs, client not initialized");
         }
@@ -125,18 +144,10 @@ export class CloudWatchLog {
         await this.createLogGroup();
         await this.createLogStream();
 
-        const logs: InputLogEvent[] =
-            typeof messages === 'string'
-                ? [
-                    {
-                        message: messages,
-                        timestamp: new Date().getTime() + Math.round(Math.random() * 100),
-                    },
-                ]
-                : messages.map((msg) => ({
-                    message: msg,
-                    timestamp: new Date().getTime() + Math.round(Math.random() * 100),
-                }));
+        const logs: InputLogEvent[] = this.messages.map((msg) => ({
+            message: msg,
+            timestamp: new Date().getTime() + Math.round(Math.random() * 100),
+        }));
 
         let callCounter = 0;
         while (true) {
@@ -162,5 +173,6 @@ export class CloudWatchLog {
                 callCounter++;
             }
         }
+        this.messages = [];
     }
 }
