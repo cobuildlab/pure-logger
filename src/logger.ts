@@ -48,13 +48,14 @@ const setCloudWatchInterval = () => {
 
 export interface Logger {
     log: (input: LogInput) => void,
-    messageCount: () => number
+    messageCount: () => number,
+    flush: () => Promise<void>,
 }
 
 /**
  * Just for testing purposes
  */
-export const stopInterval = ()=> {
+export const stopInterval = () => {
     if (cloudWatchTimer !== null) {
         clearInterval(cloudWatchTimer)
         cloudWatchTimer = null;
@@ -108,8 +109,16 @@ export function createLogger({
         }
     }
 
+    async function flush() {
+        if (cloudWatchInstance !== null) {
+            return await cloudWatchInstance.flush();
+        }
+        return Promise.resolve();
+    }
+
     return {
         log,
-        messageCount: (): number => cloudWatchInstance === null ? 0 : cloudWatchInstance.messageCount()
+        messageCount: (): number => cloudWatchInstance === null ? 0 : cloudWatchInstance.messageCount(),
+        flush,
     };
 }
