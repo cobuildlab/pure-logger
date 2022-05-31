@@ -11,7 +11,7 @@ import {
     LogStream,
     LogGroup,
     DescribeLogGroupsCommand,
-    CreateLogGroupCommandOutput,
+    // CreateLogGroupCommandOutput,
 } from '@aws-sdk/client-cloudwatch-logs';
 import {parseUrl} from '@aws-sdk/url-parser-node';
 import {
@@ -147,7 +147,7 @@ export class CloudWatchLog {
         const logs: InputLogEvent[] = this.messages.map((msg) => ({
             message: msg,
             timestamp: new Date().getTime() + Math.round(Math.random() * 100),
-        }));
+        })).sort(function(a, b){ return a.timestamp - b.timestamp });
 
         let callCounter = 0;
         while (true) {
