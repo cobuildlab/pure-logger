@@ -1,6 +1,6 @@
 {
   "name": "@cobuildlab/pure-logger",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A Simple logger for Typescript applications with Rollbar and Cloudwatch integration.",
   "main": "dist/index.js",
   "scripts": {
